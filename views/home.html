@@ -1,0 +1,30 @@
+{% extends "layouts/base.html"%}
+
+{% block title%}Homepage{% endblock %}
+
+{% block content %}
+    {% if message | length > 0  %}
+        <div style="color: red;">{{ message }}</div>
+    {% endif %}
+
+    <table class="table-contents"> <!-- do not use inline styles - style="border: 1px solid gray; width: 100%" -->
+        <tr> <!-- row -->
+            <th>Title</th> <!-- table header column, by default bold -->
+            <th>Updated</th>
+            <th>Action</th>
+        </tr>
+        {% for post in posts %}
+            <tr>
+                <td style="padding-left: {{ post.depth * 30 }}px;"> <!-- table columns -->
+                    <a href="{{ url_for('posts.post_view', url_slug=post.url_slug) }}">{{ post.title }}</a>
+                </td>
+                <td>{{ post.modified }}</td>
+                <td>
+                    <a href="{{url_for('posts.post_edit', post_id=post.post_id)}}">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a class="button" href="{{url_for('posts.post_edit')}}">Add new post</a>
+{% endblock %}
